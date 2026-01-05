@@ -5,7 +5,22 @@
 package main
 
 import (
-	"fmt"
+	"image/color"
+	"math"
+	"math/rand"
+	"time"
+
+	"gonum.org/v1/plot"
+	"gonum.org/v1/plot/palette/moreland"
+	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/vg"
+)
+
+const (
+	TAILLE        = 50
+	SCALE         = 8.0
+	POIDS_MOYENNE = 0.8
+	POIDS_PERLIN  = 0.2
 )
 
 // Génère une matrice carrée NxN initialisée avec des flottants
@@ -48,18 +63,54 @@ func avgOnColumn(matrice [][]float64, out chan<- [][]float64) {
 func displayMat(matrice [][]float64) {
 
 }
+// ==============================
+// Heatmap interface
+// ==============================
 
+type HeatmapData [][]float64
+
+func (h HeatmapData) Dims() (c, r int) {
+	return len(h[0]), len(h)
+}
+
+func (h HeatmapData) Z(c, r int) float64 {
+	return h[r][c]
+}
+
+func (h HeatmapData) X(c int) float64 {
+	return float64(c)
+}
+
+func (h HeatmapData) Y(r int) float64 {
+	return float64(r)
+}
 // Fonction principale génère la carte finale et l'affiche
 func main() {
-	n := 80
-	ch := make(chan [][]float64)
+	
+	p := plot.New()
 
-	go initMatrice(n, ch)
+	p.X.Min = 0
+	p.X.Max = TAILLE
+	p.Y.Min = 0
+	p.Y.Max = TAILLE
 
-	matrice := <-ch // attend la goroutine
+	p.X.Tick.Marker = plot.ConstantTicks([]plot.Tick{})
+	p.Y.Tick.Marker = plot.ConstantTicks([]plot.Tick{})
 
-	fmt.Println("Matrice générée :")
-	for _, ligne := range matrice {
-		fmt.Println(ligne)
+	p.X.LineStyle.Width = 0
+	p.Y.LineStyle.Width = 0
+
+	cm := moreland.Kindlmann()
+	cm.SetMax(1)
+	cm.SetMin(0)
+
+	palette := cm.Palette(255)
+	hm := plotter.NewHeatMap(HeatmapData(matrice), palette)
+	hm.NaN = color.Transparent
+
+	p.Add(hm)
+
+	if err := p.Save(6*vg.Inch, 6*vg.Inch, "perlin_heatmap.png"); err != nil {
+		panic(err)
 	}
 }
