@@ -87,3 +87,20 @@ Parallélisme : goroutines
 Synchronisation : WaitGroup    
 Génération procédurale : bruit de Perlin   
 Analyse de performance : benchmark en fonction de la taille de la carte
+
+
+# Organisation
+## Programmation séquentielle
+créer un premier algorithme de génération de bruit de perlin sur une matrice carrée, et le tester pour différentes tailles de cartes. à partir de cet algorithme, on pourra identifier le temps que prend la génération de carte en programmation séquentielle. sert de programme témoins    
+- créer une matrice carrée   
+- implémenter algo bruit de perlin   
+- afficher l’image créée 
+
+## Programmation parallèle
+diviser la génration de la carte en plusieurs programmes parallèles.    
+- génération de cartes plus petites en parallèle ⇒ faire des tests pour comparer la vitesse de calcul en fonction
+  - de la taille des cartes
+  - du nombre de cartes
+- arranger les boords de cartes pour les rendre cohérent
+  - première solution : réaliser des moyennages le long des bords de la cartes pour les rendre plus cohérents. 
+
