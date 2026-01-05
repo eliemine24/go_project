@@ -4,9 +4,7 @@
 
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // Génère une matrice carrée NxN initialisée avec des flottants
 func initMatrice(n int, out chan<- [][]float64) {
@@ -33,14 +31,33 @@ func ajouterParcelle(matrice [][]float64, out chan<- [][]float64) {
 }
 
 // Moyenner toute une ligne d'une matrice en fonction des valeurs alentours
-func avgOnLine(matrice [][]float64, out chan<- [][]float64) {
-
+// N taille de la matrice, Y coordonnee y de la ligne à moyenner
+func avgOnLine(matrice [][]float64, N int, Y int, out chan<- [][]float64) {
+	// verif bug
+	if Y <= 0 || Y >= N-1 {
+		out <- matrice // passe à la suite
+		fmt.Print("erreur : taille de matrice incompatible")
+		return
+	}
+	for i := 0; i < N; i++ {
+		// use vertical neighbors
+		matrice[Y][i] = (matrice[Y-1][i] + matrice[Y][i] + matrice[Y+1][i]) / 3
+	}
 	out <- matrice
 }
 
 // Moyenner toute une colonne d'une matrice en fonction des valeurs alentours
-func avgOnColumn(matrice [][]float64, out chan<- [][]float64) {
-
+func avgOnColumn(matrice [][]float64, N int, X int, out chan<- [][]float64) {
+	// verif bug
+	if X <= 0 || X >= N-1 {
+		out <- matrice // passe à la suite
+		fmt.Print("erreur : taille de matrice incompatible")
+		return
+	}
+	for i := 0; i < N; i++ {
+		//moyenne avec deux valeurs adjacentes
+		matrice[i][X] = (matrice[i][X-1] + matrice[i][X] + matrice[i+1][X]) / 3
+	}
 	out <- matrice
 }
 
@@ -51,15 +68,15 @@ func displayMat(matrice [][]float64) {
 
 // Fonction principale génère la carte finale et l'affiche
 func main() {
-	n := 80
-	ch := make(chan [][]float64)
 
-	go initMatrice(n, ch)
+	// Initialisation des valeurs des grandeurs utilisées
+	matsize := 10                           // taille des petites matrices
+	finalMatSize := 10 * matsize            // taille de la matrice finale (carrée de 100 par 100 pour l'instant)
+	matriceFinale := make(chan [][]float64) // matrice finale de taille finalmatsize
+	go initMatrice(finalMatSize, matriceFinale)
+	// attendre que la goroutine soi terminée avec un waitgroup, j'y reviens plus tard
 
-	matrice := <-ch // attend la goroutine
+	// Moyennage simultanné des lignes de la matrice finale, puis des colomnes
+	// test à réalise plus tard
 
-	fmt.Println("Matrice générée :")
-	for _, ligne := range matrice {
-		fmt.Println(ligne)
-	}
 }
