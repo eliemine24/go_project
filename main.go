@@ -33,9 +33,9 @@ func init() {
 	}
 }
 
-// ==============================
-// Fonctions Perlin
-// ==============================
+// ========================
+// === Fonctions Perlin ===
+// ========================
 
 // smoothstep applique l'interpolation smoothstep sur w (borné entre 0 et 1).
 func smoothstep(w float64) float64 {
@@ -82,6 +82,7 @@ func dotGridGradient(ix, iy int, x, y float64, gradients [][]Gradient) float64 {
 	return dx*g.x + dy*g.y
 }
 
+// perlin calcule la valeur du bruit de Perlin en (x,y) à partir des gradients fournis.
 func perlin(x, y float64, gradients [][]Gradient) float64 {
 	x0 := int(math.Floor(x))
 	x1 := x0 + 1
@@ -167,41 +168,39 @@ func displayMat(matrice [][]float64) {
 
 }
 
-// ==============================
-// Heatmap interface
-// ==============================
+// =========================
+// === Heatmap interface ===
+// =========================
 
 type HeatmapData [][]float64
 
+// Dims retourne le nombre de colonnes (c) et de lignes (r) pour l'interface HeatmapData.
 func (h HeatmapData) Dims() (c, r int) {
 	return len(h[0]), len(h)
 }
 
+// Z retourne la valeur z à la colonne c et ligne r.
 func (h HeatmapData) Z(c, r int) float64 {
 	return h[r][c]
 }
 
+// X retourne la coordonnée x correspondant à la colonne c (identité ici).
 func (h HeatmapData) X(c int) float64 {
 	return float64(c)
 }
 
+// Y retourne la coordonnée y correspondant à la ligne r (identité ici).
 func (h HeatmapData) Y(r int) float64 {
 	return float64(r)
 }
 
+// ============
+// === MAIN ===
+// ============
 // Fonction principale génère la carte finale et l'affiche
 func main() {
 
-	// Initialisation des valeurs des grandeurs utilisées
-	matsize := 10                           // taille des petites matrices
-	finalMatSize := 10 * matsize            // taille de la matrice finale (carrée de 100 par 100 pour l'instant)
-	matriceFinale := make(chan [][]float64) // matrice finale de taille finalmatsize
-	go initMatrice(finalMatSize, matriceFinale)
-	// attendre que la goroutine soi terminée avec un waitgroup, j'y reviens plus tard
-
-	// Moyennage simultanné des lignes de la matrice finale, puis des colomnes
-	// test à réalise plus tard
-
+	// Je t'en supplie valentin comprend et explique nous ensuite
 	p := plot.New()
 
 	p.X.Min = 0
