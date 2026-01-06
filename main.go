@@ -5,12 +5,12 @@
 package main
 
 import (
-	"fmt"
-	"image/color"
-	"math"
-	"math/rand"
+	"fmt"         // affichages compil
+	"image/color" //affichage images
+	"math"        // takapte
+	"math/rand"   //aleatoire
 
-	"gonum.org/v1/plot"
+	"gonum.org/v1/plot" //des trucs obscurs à détailler
 	"gonum.org/v1/plot/palette/moreland"
 	"gonum.org/v1/plot/plotter"
 	"gonum.org/v1/plot/vg"
