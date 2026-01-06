@@ -23,21 +23,21 @@ const (
 	POIDS_PERLIN  = 0.2
 )
 
-// Génère une matrice carrée NxN initialisée avec des flottants
-func initMatrice(n int, out chan<- [][]float64) {
-	matrice := make([][]float64, n)
+// matrice utilisée par main() pour l'affichage (evite variable non définie dans main)
+var matrice [][]float64
 
-	for i := 0; i < n; i++ {
-		matrice[i] = make([]float64, n)
+func init() {
+	matrice = make([][]float64, TAILLE)
+	for i := 0; i < TAILLE; i++ {
+		matrice[i] = make([]float64, TAILLE)
 	}
-
-	out <- matrice
 }
 
 // ==============================
 // Fonctions Perlin
 // ==============================
 
+// smoothstep applique l'interpolation smoothstep sur w (borné entre 0 et 1).
 func smoothstep(w float64) float64 {
 	if w <= 0 {
 		return 0
@@ -48,6 +48,7 @@ func smoothstep(w float64) float64 {
 	return w * w * (3 - 2*w)
 }
 
+// interpolate interpole entre a0 et a1 en utilisant smoothstep(w) comme pondération.
 func interpolate(a0, a1, w float64) float64 {
 	return a0 + (a1-a0)*smoothstep(w)
 }
@@ -56,6 +57,7 @@ type Gradient struct {
 	x, y float64
 }
 
+// generateGradients crée une grille de vecteurs gradients aléatoires pour le bruit de Perlin.
 func generateGradients(width, height int) [][]Gradient {
 	gradients := make([][]Gradient, height+1)
 	for y := 0; y <= height; y++ {
@@ -71,6 +73,8 @@ func generateGradients(width, height int) [][]Gradient {
 	return gradients
 }
 
+// dotGridGradient calcule le produit scalaire entre le vecteur distance (dx,dy)
+// et le gradient stocké à la grille (ix,iy).
 func dotGridGradient(ix, iy int, x, y float64, gradients [][]Gradient) float64 {
 	dx := x - float64(ix)
 	dy := y - float64(iy)
@@ -152,8 +156,8 @@ func avgOnColumn(matrice [][]float64, N int, X int, out chan<- [][]float64) {
 		return
 	}
 	for i := 0; i < N; i++ {
-		//moyenne avec deux valeurs adjacentes
-		matrice[i][X] = (matrice[i][X-1] + matrice[i][X] + matrice[i+1][X]) / 3
+		// moyenne avec deux valeurs adjacentes (colonne gauche et droite)
+		matrice[i][X] = (matrice[i][X-1] + matrice[i][X] + matrice[i][X+1]) / 3
 	}
 	out <- matrice
 }
