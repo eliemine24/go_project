@@ -23,7 +23,7 @@ func ajouterParcelle(matrice [][]float64, out chan<- [][]float64) {
 
 // Moyenner toute une ligne d'une matrice en fonction des valeurs alentours
 // N taille de la matrice, Y coordonnee y de la ligne à moyenner
-func avgOnLine(matrice [][]float64, N int, Y int, out chan<- [][]float64) {
+func AvgOnLine(matrice [][]float64, N int, Y int, out chan<- [][]float64) {
 	// verif bug
 	if Y <= 0 || Y >= N-1 {
 		out <- matrice // passe à la suite
@@ -38,7 +38,7 @@ func avgOnLine(matrice [][]float64, N int, Y int, out chan<- [][]float64) {
 }
 
 // Moyenner toute une colonne d'une matrice en fonction des valeurs alentours
-func avgOnColumn(matrice [][]float64, N int, X int, out chan<- [][]float64) {
+func AvgOnColumn(matrice [][]float64, N int, X int, out chan<- [][]float64) {
 	// verif bug
 	if X <= 0 || X >= N-1 {
 		out <- matrice // passe à la suite
