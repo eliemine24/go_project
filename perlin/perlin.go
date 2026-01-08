@@ -1,11 +1,8 @@
-package noise
+package perlin
 
 import (
-	// affichages compil
-	//affichage images
 	"math"      // takapte
 	"math/rand" //aleatoire
-	//des trucs obscurs à détailler
 )
 
 const (

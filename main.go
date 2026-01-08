@@ -5,35 +5,30 @@
 package main
 
 import (
-	"gns/matrix"
-	"gns/noise"
 	"fmt"
+	"gns/matrix"
+	"gns/perlin"
 )
 
 const (
-	MAPSIZE      = 50                               // taille des maps elementaires
-	RATIO        = 10                               // rapport de la taille de la map finale par la taille des maps elementaires
-	FINALMAPSIZE = MAPSIZE * RATIO                  // taille de la map finale
-	MAPNB        = FINALMAPSIZE / MAPSIZE           // nombre de map elementaires sur la map finale
-	FINALMAP     = matrix.InitMatrice(FINALMAPSIZE) // Map finale (matrice carrée de flottant)
+	MAPSIZE      = 10
+	RATIO        = 10
+	FINALMAPSIZE = MAPSIZE * RATIO
+	MAPNB        = FINALMAPSIZE / MAPSIZE
 )
 
-// canal pour la génération des matrices bruitées
-c := make(chan [][]float64)
-
 func main() {
-	// Générer les matrices et générer perlin dessus
-	// alimenter le canal avec la go routine de génération de perlin noise
+	// init channel(s)
+	initCh := make(chan [][]float64)
+	perlinCh := make(chan [][]float64)
 
-	// func Worker(canal){
-	// for (j in range c)
-	// do Job(j) }
+	// init matrix (runs as goroutine that sends the matrix on initCh)
+	go matrix.InitMatrice(MAPSIZE, initCh)
+	TESTMAP := <-initCh
 
-	// for (number <K){go Worker}
+	// run perlin generator (expects to send result on perlinCh)
+	go perlin.GeneratePerlin(TESTMAP, perlinCh)
+	TESTMAP = <-perlinCh
 
-	// === test perlin ===
-	TESTMAP = matrix.InitMatrice(MAPSIZE)
-	TESTMAP = perlin.GeneratePerlin(TESTMAP)
-
-
+	fmt.Print(TESTMAP)
 }
