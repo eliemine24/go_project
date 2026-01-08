@@ -127,5 +127,5 @@ func GeneratePerlin(matrice [][]float64, out chan<- [][]float64) {
 		}
 	}
 
-	out <- matrice
+	return matrice
 }
