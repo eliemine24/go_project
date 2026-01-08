@@ -36,7 +36,7 @@ func (h HeatmapData) Y(r int) float64 {
 }
 
 // Affichage final de la matrice
-func ShowMat() {
+func ShowMat(FINALMAP, MAPSIZE) {
 
 	p := plot.New()
 
