@@ -35,15 +35,15 @@ func (h HeatmapData) Y(r int) float64 {
 	return float64(r)
 }
 
-// Affichage final de la matrice ?
+// Affichage final de la matrice
 func ShowMat() {
 
 	p := plot.New()
 
 	p.X.Min = 0
-	p.X.Max = TAILLE
+	p.X.Max = MAPSIZE
 	p.Y.Min = 0
-	p.Y.Max = TAILLE
+	p.Y.Max = MAPSIZE
 
 	p.X.Tick.Marker = plot.ConstantTicks([]plot.Tick{})
 	p.Y.Tick.Marker = plot.ConstantTicks([]plot.Tick{})
@@ -56,7 +56,7 @@ func ShowMat() {
 	cm.SetMin(0)
 
 	palette := cm.Palette(255)
-	hm := plotter.NewHeatMap(HeatmapData(matrice), palette)
+	hm := plotter.NewHeatMap(HeatmapData(FINALMAP), palette)
 	hm.NaN = color.Transparent
 
 	p.Add(hm)

@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	TAILLE        = 50
 	SCALE         = 8.0
 	POIDS_MOYENNE = 0.8
 	POIDS_PERLIN  = 0.2
