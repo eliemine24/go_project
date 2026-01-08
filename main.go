@@ -6,10 +6,12 @@ package main
 
 import (
 	"gns/matrix"
+	"gns/noise"
+	"fmt"
 )
 
 const (
-	MAPSIZE      = 10                               // taille des maps elementaires
+	MAPSIZE      = 50                               // taille des maps elementaires
 	RATIO        = 10                               // rapport de la taille de la map finale par la taille des maps elementaires
 	FINALMAPSIZE = MAPSIZE * RATIO                  // taille de la map finale
 	MAPNB        = FINALMAPSIZE / MAPSIZE           // nombre de map elementaires sur la map finale
@@ -28,5 +30,10 @@ func main() {
 	// do Job(j) }
 
 	// for (number <K){go Worker}
+
+	// === test perlin ===
+	TESTMAP = matrix.InitMatrice(MAPSIZE)
+	TESTMAP = perlin.GeneratePerlin(TESTMAP)
+
 
 }
