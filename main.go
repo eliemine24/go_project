@@ -11,13 +11,11 @@ import (
 )
 
 const (
-	MAPSIZE      = 50
+	MAPSIZE      = 10
 	RATIO        = 10
 	FINALMAPSIZE = MAPSIZE * RATIO
 	MAPNB        = FINALMAPSIZE / MAPSIZE
 )
-
-// canal pour la génération des matrices bruitées
 
 func main() {
 	// init channel(s)
