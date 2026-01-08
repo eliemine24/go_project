@@ -6,12 +6,13 @@ package main
 
 import (
 	"fmt"
+	"gns/display"
 	"gns/matrix"
 	"gns/perlin"
 )
 
 const (
-	MAPSIZE      = 50
+	MAPSIZE      = 10
 	RATIO        = 10
 	FINALMAPSIZE = MAPSIZE * RATIO
 	MAPNB        = FINALMAPSIZE / MAPSIZE
@@ -39,6 +40,8 @@ func jobfeeder_avg(k chan<- [][]float64) {
 }
 
 func main() {
+
+	// TESTS DE PERLIN ET AFFICHAGE
 	// init channel(s)
 	initCh := make(chan [][]float64)
 	perlinCh := make(chan [][]float64)
@@ -52,4 +55,6 @@ func main() {
 	TESTMAP = <-perlinCh
 
 	fmt.Print(TESTMAP)
+	display.ShowMat(TESTMAP, 10.0)
+	// FIN TEST
 }

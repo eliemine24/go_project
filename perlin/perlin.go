@@ -1,15 +1,11 @@
 package perlin
 
 import (
-	// affichages compil
-	//affichage images
 	"math"      // takapte
 	"math/rand" //aleatoire
-	//des trucs obscurs à détailler
 )
 
 const (
-	TAILLE        = 50
 	SCALE         = 8.0
 	POIDS_MOYENNE = 0.8
 	POIDS_PERLIN  = 0.2
