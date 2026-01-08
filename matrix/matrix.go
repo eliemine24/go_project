@@ -3,8 +3,8 @@ package matrix
 import "fmt"
 
 // Init Matrice
-func InitMatrice(size int, out <- [][]float64) {
-	matrice = make([][]float64, size)
+func InitMatrice(size int, out chan<- [][]float64) {
+	matrice := make([][]float64, size)
 	for i := 0; i < size; i++ {
 		matrice[i] = make([]float64, size)
 	}
@@ -60,20 +60,4 @@ func AvgOnColumn(matrice [][]float64, N int, X int, out chan<- [][]float64) {
 		matrice[i][X] = (matrice[i][X-1] + matrice[i][X] + matrice[i][X+1]) / 3
 	}
 	out <- matrice
-}
-
-func main(){
-	m1 := [][]int{
-	{1, 2, 3},
-	{4, 5, 6},
-	{7, 8, 9},
-}
-
-	m2 = make([][]float64, 9)
-		for i := 0; i < 9; i++ {
-			m2[i] = make([]float64, 9)
-		}
-
-	print(m1)
-	print(m2)
 }
