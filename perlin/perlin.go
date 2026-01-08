@@ -1,4 +1,4 @@
-package noise
+package perlin
 
 import (
 	// affichages compil

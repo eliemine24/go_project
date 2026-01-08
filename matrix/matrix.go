@@ -19,18 +19,24 @@ func InitMatrice(size int, out chan<- [][]float64) {
 // Concatener des matrices en une matrice plus grande (vérifier qu'on obtient une matrice carrée)
 // ajouter les valeurs d'une matrice plus petite sur une matrice plus grande
 // x, y coordonnées de la première valeur de la petite matrice dans la plus grande, N taille de la matrice d'entrée
-func AjouterParcelle(matrice [][]float64, N int, x int, y int, out chan<- [][]float64) {
-	if x+N-1 >= len(out[0]) || y+N-1 >= len(out) {
-		out <- matrice // passe à la suite
+func AjouterParcelle(source [][]float64, N int, x int, y int, dest [][]float64, out chan<- [][]float64) {
+	// validations
+	if N <= 0 || len(dest) == 0 || len(dest[0]) == 0 || len(source) < N || len(source[0]) < N {
+		out <- dest
+		fmt.Print("erreur : matrices incompatibles")
+		return
+	}
+	if x < 0 || y < 0 || x+N > len(dest) || y+N > len(dest[0]) {
+		out <- dest
 		fmt.Print("erreur : matrices incompatibles")
 		return
 	}
 	for i := 0; i < N; i++ {
 		for j := 0; j < N; j++ {
-			out[i+x][j+y] = matrice[i][j]
+			dest[i+x][j+y] = source[i][j]
 		}
 	}
-	out <- matrice
+	out <- dest
 }
 
 // Moyenner toute une ligne d'une matrice en fonction des valeurs alentours
