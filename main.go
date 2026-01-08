@@ -19,17 +19,6 @@ const (
 // canal pour la génération des matrices bruitées
 c := make(chan [][]float64)
 
-func GenerateNoisedMap(size int, out <- [][]float64){
-	
-}
-
-func LauchGeneration(n int, c chan){
-	for(N){
-		c <- GenerateElemMap(size)
-	}
-
-}
-
 func main() {
 	// Générer les matrices et générer perlin dessus
 	// alimenter le canal avec la go routine de génération de perlin noise
