@@ -16,8 +16,18 @@ func init() {
 
 // Concatener des matrices en une matrice plus grande (vérifier qu'on obtient une matrice carrée)
 // ajouter les valeurs d'une matrice plus petite sur une matrice plus grande
-func ajouterParcelle(matrice [][]float64, out chan<- [][]float64) {
-
+// x, y coordonnées de la première valeur de la petite matrice dans la plus grande, N taille de la matrice d'entrée
+func AjouterParcelle(matrice [][]float64, N int, x int, y int, out chan<- [][]float64) {
+	if x+N-1 >= len(out[0]) || y+N-1 >= len(out) {
+		out <- matrice // passe à la suite
+		fmt.Print("erreur : matrices incompatibles")
+		return
+	}
+	for i := 0; i < N; i++ {
+		for j := 0; j < N; j++ {
+			out[i+x][j+y] = matrice[i][j]
+		}
+	}
 	out <- matrice
 }
 
@@ -50,4 +60,20 @@ func avgOnColumn(matrice [][]float64, N int, X int, out chan<- [][]float64) {
 		matrice[i][X] = (matrice[i][X-1] + matrice[i][X] + matrice[i][X+1]) / 3
 	}
 	out <- matrice
+}
+
+func main(){
+	m1 := [][]int{
+	{1, 2, 3},
+	{4, 5, 6},
+	{7, 8, 9},
+}
+
+	m2 = make([][]float64, 9)
+		for i := 0; i < 9; i++ {
+			m2[i] = make([]float64, 9)
+		}
+
+	print(m1)
+	print(m2)
 }
