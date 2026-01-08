@@ -19,6 +19,8 @@ const (
 )
 
 func main() {
+
+	// TESTS DE PERLIN ET AFFICHAGE
 	// init channel(s)
 	initCh := make(chan [][]float64)
 	perlinCh := make(chan [][]float64)
@@ -33,4 +35,5 @@ func main() {
 
 	fmt.Print(TESTMAP)
 	display.ShowMat(TESTMAP, 10.0)
+	// FIN TEST
 }
