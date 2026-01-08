@@ -88,7 +88,7 @@ func perlin(x, y float64, gradients [][]Gradient) float64 {
 }
 
 // Générer un bruit de perlin sur une matrice vide carree de taille n
-func EffectuerPerlin(matrice [][]float64, out chan<- [][]float64) {
+func GeneratePerlin(matrice [][]float64, out chan<- [][]float64) {
 	gradients := generateGradients(len(matrice[0]), len(matrice[0]))
 
 	for i := 1; i < len(matrice[0]); i++ {
