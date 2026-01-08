@@ -3,11 +3,13 @@ package matrix
 import "fmt"
 
 // Init Matrice
-func init() {
-	matrice = make([][]float64, TAILLE)
-	for i := 0; i < TAILLE; i++ {
-		matrice[i] = make([]float64, TAILLE)
+func InitMatrice(size int, out <- [][]float64) {
+	matrice = make([][]float64, size)
+	for i := 0; i < size; i++ {
+		matrice[i] = make([]float64, size)
 	}
+
+	out <- matrice
 }
 
 // ===========================
