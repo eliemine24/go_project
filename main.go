@@ -18,6 +18,27 @@ const (
 	MAPNB        = FINALMAPSIZE / MAPSIZE
 )
 
+// canal pour la génération des matrices bruitées
+
+func jobfeeder_maps(c chan<- [][]float64) {
+	for i:=0; i < MAPNB; i+=MAPSIZE {
+		for j:=0; j < MAPNB; j+=MAPSIZE {
+			c <- (i, j)
+		}
+	}
+	close c
+}
+
+func jobfeeder_avg(k chan<- [][]float64) {
+	for i:=MAPSIZE; i < FINALMAPSIZE; i+=MAPSIZE {
+		k <- (i, 0)
+	}
+	for j:=MAPSIZE; j < FINALMAPSIZE; j+=MAPSIZE {
+		k <- (0, j)
+	}
+	close k
+}
+
 func main() {
 
 	// TESTS DE PERLIN ET AFFICHAGE
