@@ -15,6 +15,7 @@ const (
 	POIDS_PERLIN  = 0.2
 )
 
+//lsugflzdefuv
 // ========================
 // === Fonctions Perlin ===
 // ========================
