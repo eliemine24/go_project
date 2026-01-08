@@ -37,3 +37,5 @@ func main() {
 	display.ShowMat(TESTMAP, 10.0)
 	// FIN TEST
 }
+
+func Jobfeeder()
