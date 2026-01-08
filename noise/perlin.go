@@ -15,7 +15,6 @@ const (
 	POIDS_PERLIN  = 0.2
 )
 
-//lsugflzdefuv
 // ========================
 // === Fonctions Perlin ===
 // ========================
@@ -31,7 +30,8 @@ func smoothstep(w float64) float64 {
 	return w * w * (3 - 2*w)
 }
 
-// interpolate interpole entre a0 et a1 en utilisant smoothstep(w) comme pondération.
+// Fonction d'interpolation lisse entre a0 et a1
+// Le poids w doit être dans l'intervalle [0.0, 1.0]
 func interpolate(a0, a1, w float64) float64 {
 	return a0 + (a1-a0)*smoothstep(w)
 }
@@ -47,8 +47,8 @@ func generateGradients(width, height int) [][]Gradient {
 	for y := 0; y <= height; y++ {
 		gradients[y] = make([]Gradient, width+1)
 		for x := 0; x <= width; x++ {
-			angle := rand.Float64() * 2 * math.Pi
-			gradients[y][x] = Gradient{
+			angle := rand.Float64() * 2 * math.Pi //génère un vecteur unitaire dans une direction aléatoire.
+			gradients[y][x] = Gradient{           //conversion angle en vecteur unitaire
 				x: math.Cos(angle),
 				y: math.Sin(angle),
 			}
@@ -58,17 +58,17 @@ func generateGradients(width, height int) [][]Gradient {
 }
 
 // dotGridGradient calcule le produit scalaire entre le vecteur distance (dx,dy)
-// et le gradient stocké à la grille (ix,iy).
+// et le gradient stocké à ce coin de la grille (ix,iy).
 func dotGridGradient(ix, iy int, x, y float64, gradients [][]Gradient) float64 {
 	dx := x - float64(ix)
 	dy := y - float64(iy)
-	g := gradients[iy][ix]
+	g := gradients[iy][ix] //
 	return dx*g.x + dy*g.y
 }
 
 // perlin calcule la valeur du bruit de Perlin en (x,y) à partir des gradients fournis.
 func perlin(x, y float64, gradients [][]Gradient) float64 {
-	x0 := int(math.Floor(x))
+	x0 := int(math.Floor(x)) //On détermine les quatre coins de la cellule dans laquelle se trouve le point (x,y).
 	x1 := x0 + 1
 	y0 := int(math.Floor(y))
 	y1 := y0 + 1
@@ -76,11 +76,11 @@ func perlin(x, y float64, gradients [][]Gradient) float64 {
 	sx := x - float64(x0)
 	sy := y - float64(y0)
 
-	n0 := dotGridGradient(x0, y0, x, y, gradients)
+	n0 := dotGridGradient(x0, y0, x, y, gradients) //produits scalaires aux 4 coins
 	n1 := dotGridGradient(x1, y0, x, y, gradients)
-	ix0 := interpolate(n0, n1, sx)
+	ix0 := interpolate(n0, n1, sx) //ligne du haut.
 
-	n0 = dotGridGradient(x0, y1, x, y, gradients)
+	n0 = dotGridGradient(x0, y1, x, y, gradients) //ligne du bas.
 	n1 = dotGridGradient(x1, y1, x, y, gradients)
 	ix1 := interpolate(n0, n1, sx)
 
@@ -89,18 +89,43 @@ func perlin(x, y float64, gradients [][]Gradient) float64 {
 
 // Générer un bruit de perlin sur une matrice vide carree de taille n
 func GeneratePerlin(matrice [][]float64, out chan<- [][]float64) {
-	gradients := generateGradients(len(matrice[0]), len(matrice[0]))
+	n := len(matrice[0])
+	gradients := generateGradients(n, n)
 
-	for i := 1; i < len(matrice[0]); i++ {
-		for j := 1; j < len(matrice[0]); j++ {
-			moyenne := (matrice[i][j-1] + matrice[i-1][j]) / 2
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
 
+			// Bruit de Perlin normalisé
 			p := perlin(float64(i)/SCALE, float64(j)/SCALE, gradients)
 			p = (p + 1) / 2
 
+			var moyenne float64
+
+			switch {
+			case i == 0 && j == 0:
+				// Coin supérieur gauche : pas de voisins
+				moyenne = p
+
+			case i == 0:
+				// Première ligne : on ne peut prendre que la valeur à gauche
+				moyenne = matrice[i][j-1]
+
+			case j == 0:
+				// Première colonne : on ne peut prendre que la valeur au-dessus
+				moyenne = matrice[i-1][j]
+
+			default:
+				// Cas général : moyenne des deux voisins
+				moyenne = (matrice[i][j-1] + matrice[i-1][j]) / 2
+			}
+
+			// Mélange pondéré
 			valeur := POIDS_MOYENNE*moyenne + POIDS_PERLIN*p
+
+			// Clamp entre 0 et 1
 			matrice[i][j] = math.Max(0, math.Min(1, valeur))
 		}
 	}
+
 	out <- matrice
 }
