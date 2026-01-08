@@ -6,6 +6,7 @@ package main
 
 import (
 	"fmt"
+	"gns/display"
 	"gns/matrix"
 	"gns/perlin"
 )
@@ -17,25 +18,12 @@ const (
 	MAPNB        = FINALMAPSIZE / MAPSIZE
 )
 
-func GenerateMaps(maplist [][][]float64, c chan[][]float64){
-	for (maplist range(c)){
-		go matrix.InitMatrice(MAPSIZE, c)
-	}
-}
-
 func main() {
-	MAPLIST := [][][]float64 // liste des maps élémentaires
-
 	// init channel(s)
 	initCh := make(chan [][]float64)
 	perlinCh := make(chan [][]float64)
 
 	// init matrix (runs as goroutine that sends the matrix on initCh)
-	for(MAPNB){
-		go matrix.InitMatrice(MAPSIZE, initCh)
-	TESTMAP := <-initCh
-
-	}
 	go matrix.InitMatrice(MAPSIZE, initCh)
 	TESTMAP := <-initCh
 
@@ -44,4 +32,5 @@ func main() {
 	TESTMAP = <-perlinCh
 
 	fmt.Print(TESTMAP)
+	display.ShowMat(TESTMAP, 10.0)
 }
