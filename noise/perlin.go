@@ -35,6 +35,7 @@ func interpolate(a0, a1, w float64) float64 {
 	return a0 + (a1-a0)*smoothstep(w)
 }
 
+// Définit un type gradient pour la génération de bruit
 type Gradient struct {
 	x, y float64
 }

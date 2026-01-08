@@ -27,7 +27,6 @@ func displayMat(matrice [][]float64) {
 // Fonction principale génère la carte finale et l'affiche
 func main() {
 
-	// Je t'en supplie valentin comprend et explique nous ensuite
 	p := plot.New()
 
 	p.X.Min = 0
