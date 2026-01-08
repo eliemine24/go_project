@@ -124,8 +124,9 @@ func GeneratePerlin(matrice [][]float64, out chan<- [][]float64) {
 
 			// Clamp entre 0 et 1
 			matrice[i][j] = math.Max(0, math.Min(1, valeur))
+			matrice_new = matrice
 		}
 	}
 
-	return matrice
+	return matrice_new
 }
