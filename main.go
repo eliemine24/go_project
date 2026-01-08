@@ -5,9 +5,9 @@
 package main
 
 import (
-	"gns/matrix"
-	"gns/noise"
 	"fmt"
+	"gns/matrix"
+	"gns/perlin"
 )
 
 const (
@@ -19,7 +19,7 @@ const (
 )
 
 // canal pour la génération des matrices bruitées
-c := make(chan [][]float64)
+//c := make(chan [][]float64)
 
 func main() {
 	// Générer les matrices et générer perlin dessus
@@ -32,8 +32,8 @@ func main() {
 	// for (number <K){go Worker}
 
 	// === test perlin ===
-	TESTMAP = matrix.InitMatrice(MAPSIZE)
+	TESTMAP := matrix.InitMatrice(MAPSIZE)
 	TESTMAP = perlin.GeneratePerlin(TESTMAP)
-
+	fmt.Print(TESTMAP)
 
 }
