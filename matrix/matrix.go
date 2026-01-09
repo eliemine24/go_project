@@ -4,12 +4,11 @@ import "fmt"
 
 // Init Matrice
 func InitMatrice(size int) [][]float64 {
-	matrice := make([][]float64, size)
+	m := make([][]float64, size)
 	for i := 0; i < size; i++ {
-		matrice[i] = make([]float64, size)
+		m[i] = make([]float64, size)
 	}
-
-	return matrice
+	return m
 }
 
 // ===========================
