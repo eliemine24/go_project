@@ -29,7 +29,7 @@ func main() {
 		go perlin.GeneratePerlin(m, out)
 	}
 
-	// Recep des maps élémentaires depuis les canaux
+	// Recep des maps élémentaires depuis les canaux sefdvsdfv
 	for i := 0; i < NBMAPS; i++ {
 		matrice := <-out
 		MAPLIST = append(MAPLIST, matrice)
