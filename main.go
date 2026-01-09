@@ -36,5 +36,14 @@ func main() {
 		MAPLIST = append(MAPLIST, matrice)
 	}
 
+	// Init la matrice finale
+	FINALMAP := matrix.InitMatrice(FINALMAPSIZE)
+	// Lancement en parallèle de l'ajout des MAPS sur FINALMAP
+	for i := 0; i < NBMAPS; i++ {
+		for j := 0; j < NBMAPS; i++ {
+			matrix.AjouterParcelle(MAPLIST[i], MAPSIZE, i*MAPSIZE, j*MAPSIZE, FINALMAP, out)
+		}
+	}
+
 	fmt.Print(MAPLIST)
 }
