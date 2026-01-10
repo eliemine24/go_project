@@ -18,24 +18,11 @@ func InitMatrice(size int) [][]float64 {
 // Concatener des matrices en une matrice plus grande (vérifier qu'on obtient une matrice carrée)
 // ajouter les valeurs d'une matrice plus petite sur une matrice plus grande
 // x, y coordonnées de la première valeur de la petite matrice dans la plus grande, N taille de la matrice d'entrée
-func AjouterParcelle(source [][]float64, N int, x int, y int, dest [][]float64, out chan<- [][]float64) {
-	// validations
-	if N <= 0 || len(dest) == 0 || len(dest[0]) == 0 || len(source) < N || len(source[0]) < N {
-		out <- dest
-		fmt.Print("erreur : matrices incompatibles")
-		return
-	}
-	if x < 0 || y < 0 || x+N > len(dest) || y+N > len(dest[0]) {
-		out <- dest
-		fmt.Print("erreur : matrices incompatibles")
-		return
-	}
+// chat m'a donné la fonction copy(dest, source) qui est acrréement plus efficace
+func AjouterParcelle(source [][]float64, N, x, y int, dest [][]float64) {
 	for i := 0; i < N; i++ {
-		for j := 0; j < N; j++ {
-			dest[i+x][j+y] = source[i][j]
-		}
+		copy(dest[x+i][y:y+N], source[i])
 	}
-	out <- dest
 }
 
 // Moyenner toute une ligne d'une matrice en fonction des valeurs alentours
