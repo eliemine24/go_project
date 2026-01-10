@@ -23,17 +23,43 @@ func AjouterParcelle(source [][]float64, N, x, y int, dest [][]float64) {
 	}
 }
 
-// Moyenner toute une ligne d'une matrice en fonction des valeurs alentours
-// N taille de la matrice, Y coordonnee y de la ligne à moyenner
-func AvgOnColumn(matrice [][]float64, x int) {
+// Moyenner toute une colonne d'une matrice en fonction des valeurs alentours
+// sur une largeur avgwide
+func AvgOnLine(matrice [][]float64, x int, avgwide int) {
 	long := len(matrice)
+
+	// antibug haha
+	if x-avgwide < 0 || x+avgwide >= long {
+		return
+	}
 
 	// Moyennage sur deux cases à partir des bords des maps, x se situe ici :
 	// ----map1----|---map2----
 	// ....][_][_] | [x][_][...
 	for y := 0; y < long; y++ {
-		matrice[x][y] = (matrice[x-3][y] + matrice[x-2][y] + matrice[x-1][y]) / 3
-		matrice[x][y] = (matrice[x][y] + matrice[x+1][y] + matrice[x+2][y]) / 3
-		matrice[x][y] = (matrice[x-2][y] + matrice[x-1][y] + matrice[x][y]) / 3
-		matrice[x][y] = (matrice[x-1][y] + matrice[x][y] + matrice[x][y]) / 3
+		sum := 0.0
+		for tx := x - avgwide; tx < x+avgwide; tx++ {
+			sum += matrice[tx][y]
+		}
+		matrice[x][y] = sum / float64(2*avgwide)
 	}
+}
+
+// Moyenner toute une ligne d'une matrice en fonction des valeurs alentours
+// sur une largeur avgwide
+func AvgOnColumn(matrice [][]float64, y int, avgwide int) {
+	long := len(matrice)
+
+	// antibug haha
+	if y-avgwide < 0 || y+avgwide >= long {
+		return
+	}
+
+	for x := 0; x < long; x++ {
+		sum := 0.0
+		for ty := y - avgwide; ty < y+avgwide; ty++ {
+			sum += matrice[x][ty]
+		}
+		matrice[x][y] = sum / float64(2*avgwide)
+	}
+}

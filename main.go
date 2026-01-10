@@ -13,10 +13,12 @@ import (
 )
 
 const (
-	MAPSIZE      = 16
-	RATIO        = 4
-	FINALMAPSIZE = MAPSIZE * RATIO
-	NBMAPS       = RATIO * RATIO
+	MAPSIZE      = 100             // taille des maps élémentaires
+	RATIO        = 10              // nombre de maps élémentaires du un coté de map finale
+	FINALMAPSIZE = MAPSIZE * RATIO // taille de la map finale
+	NBMAPS       = RATIO * RATIO   // nombre de maps élémentaires sur la map finale
+	AVGWIDE      = 10              // largeur du moyennage
+	AVGNUMBER    = 1               //nombre de moyennages successifs
 )
 
 func main() {
@@ -69,29 +71,49 @@ func main() {
 	wg.Wait() // attendre que la concaténation soit terminée.
 	fmt.Println("--- fin ajout matrices ---")
 
-	// Moyennage pour adoucir les bords 
-	fmt.Println("-- début moyennage")
+	// Moyennage pour adoucir les bords
+	fmt.Println("-- début moyennage lignes ---")
 
 	// On commence par les moyennages sur les colomnes pour éviter les chevauchements
 	var wgx sync.WaitGroup
 
-	for tx := 1; tx <= RATIO; tx++ {
+	for tx := 1; tx < RATIO; tx++ {
 
 		x := tx * MAPSIZE
 
 		wgx.Add(1)
 
-		go func (FINALMAP [][]float64, x int){
+		go func(FINALMAP [][]float64, x int) {
 			defer wgx.Done()
-			
-		}
+			for i := 0; i < AVGNUMBER; i++ { //plusieurs moyannages successif parce qu'on est des bourrins
+				matrix.AvgOnLine(FINALMAP, x, AVGWIDE)
+			}
+		}(FINALMAP, x)
 
 	}
+	wgx.Wait()
 
+	// Moyennage pour adoucir les bords
+	fmt.Println("-- début moyennage colonnes ---")
 
+	// On commence par les moyennages sur les colomnes pour éviter les chevauchements
+	var wgy sync.WaitGroup
 
+	for ty := 1; ty < RATIO; ty++ {
 
+		y := ty * MAPSIZE
 
+		wgy.Add(1)
+
+		go func(FINALMAP [][]float64, y int) {
+			defer wgy.Done()
+			for i := 0; i < AVGNUMBER; i++ { //plusieurs moyannages successif parce qu'on est des bourrins
+				matrix.AvgOnColumn(FINALMAP, y, AVGWIDE)
+			}
+		}(FINALMAP, y)
+
+	}
+	wgy.Wait()
 
 	// afficher la matrice finie avec display.showmat
 	display.ShowMat(FINALMAP, MAPSIZE)
