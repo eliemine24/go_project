@@ -13,12 +13,12 @@ import (
 )
 
 const (
-	MAPSIZE      = 100             // taille des maps élémentaires
-	RATIO        = 10              // nombre de maps élémentaires du un coté de map finale
+	MAPSIZE      = 512             // taille des maps élémentaires
+	RATIO        = 16              // nombre de maps élémentaires du un coté de map finale
 	FINALMAPSIZE = MAPSIZE * RATIO // taille de la map finale
 	NBMAPS       = RATIO * RATIO   // nombre de maps élémentaires sur la map finale
 	AVGWIDE      = 40              // largeur du moyennage
-	AVGNUMBER    = 100             //nombre de moyennages successifs
+	AVGNUMBER    = 10              //nombre de moyennages successifs
 )
 
 func main() {
