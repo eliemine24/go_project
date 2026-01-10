@@ -6,14 +6,15 @@ package main
 
 import (
 	"fmt"
+	"gns/display"
 	"gns/matrix"
 	"gns/perlin"
 	"sync"
 )
 
 const (
-	MAPSIZE      = 10
-	RATIO        = 10
+	MAPSIZE      = 16
+	RATIO        = 4
 	FINALMAPSIZE = MAPSIZE * RATIO
 	NBMAPS       = RATIO * RATIO
 )
@@ -39,8 +40,6 @@ func main() {
 		MAPLIST = append(MAPLIST, matrice)
 	}
 
-	fmt.Println(MAPLIST)
-
 	// Init la matrice finale
 	fmt.Println("--- initialize finalmap ---")
 	FINALMAP := matrix.InitMatrice(FINALMAPSIZE)
@@ -57,7 +56,6 @@ func main() {
 			source := MAPLIST[index]
 			x := tx * MAPSIZE
 			y := ty * MAPSIZE
-			fmt.Println(index)
 
 			wg.Add(1)
 			go func(src [][]float64, x, y int) {
@@ -68,8 +66,8 @@ func main() {
 			index++
 		}
 	}
-
 	wg.Wait() // attendre que la concaténation soit terminée.
-
-	fmt.Print(FINALMAP)
+	fmt.Println("--- fin ajout matrices --")
+	// afficher la matrice finie avec display.showmat
+	display.ShowMat(FINALMAP, MAPSIZE)
 }
