@@ -14,7 +14,7 @@ import (
 
 const (
 	MAPSIZE      = 100             // taille des maps élémentaires
-	RATIO        = 16              // nombre de maps élémentaires du un coté de map finale
+	RATIO        = 16              // nombre de maps élémentaires du un coté de map finale ATTENTION C'EST O(N^2) DONC ÇA PLANTE TRES VITE
 	FINALMAPSIZE = MAPSIZE * RATIO // taille de la map finale
 	NBMAPS       = RATIO * RATIO   // nombre de maps élémentaires sur la map finale
 	AVGWIDE      = 40              // largeur du moyennage
