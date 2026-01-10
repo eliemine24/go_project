@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	MAPSIZE      = 512             // taille des maps élémentaires
+	MAPSIZE      = 100             // taille des maps élémentaires
 	RATIO        = 16              // nombre de maps élémentaires du un coté de map finale
 	FINALMAPSIZE = MAPSIZE * RATIO // taille de la map finale
 	NBMAPS       = RATIO * RATIO   // nombre de maps élémentaires sur la map finale

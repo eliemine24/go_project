@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	SCALE         = 90  // Larger SCALE = noise varies slower = larger features (smoother, more zoomed-out)
+	SCALE         = 50  // Larger SCALE = noise varies slower = larger features (smoother, more zoomed-out)
 	POIDS_MOYENNE = 0.5 // Higher weight = output follows neighbors more = smoother transitions between cells
 	POIDS_PERLIN  = 0.5 // Higher weight = more randomness, less smoothing
 )
