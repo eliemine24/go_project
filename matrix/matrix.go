@@ -1,7 +1,5 @@
 package matrix
 
-import "fmt"
-
 // Init Matrice
 func InitMatrice(size int) [][]float64 {
 	m := make([][]float64, size)
@@ -27,31 +25,15 @@ func AjouterParcelle(source [][]float64, N, x, y int, dest [][]float64) {
 
 // Moyenner toute une ligne d'une matrice en fonction des valeurs alentours
 // N taille de la matrice, Y coordonnee y de la ligne à moyenner
-func AvgOnLine(matrice [][]float64, N int, Y int, out chan<- [][]float64) {
-	// verif bug
-	if Y <= 0 || Y >= N-1 {
-		out <- matrice // passe à la suite
-		fmt.Print("erreur : taille de matrice incompatible")
-		return
-	}
-	for i := 0; i < N; i++ {
-		// use vertical neighbors
-		matrice[Y][i] = (matrice[Y-1][i] + matrice[Y][i] + matrice[Y+1][i]) / 3
-	}
-	out <- matrice
-}
+func AvgOnColumn(matrice [][]float64, x int) {
+	long := len(matrice)
 
-// Moyenner toute une colonne d'une matrice en fonction des valeurs alentours
-func AvgOnColumn(matrice [][]float64, N int, X int, out chan<- [][]float64) {
-	// verif bug
-	if X <= 0 || X >= N-1 {
-		out <- matrice // passe à la suite
-		fmt.Print("erreur : taille de matrice incompatible")
-		return
+	// Moyennage sur deux cases à partir des bords des maps, x se situe ici :
+	// ----map1----|---map2----
+	// ....][_][_] | [x][_][...
+	for y := 0; y < long; y++ {
+		matrice[x][y] = (matrice[x-3][y] + matrice[x-2][y] + matrice[x-1][y]) / 3
+		matrice[x][y] = (matrice[x][y] + matrice[x+1][y] + matrice[x+2][y]) / 3
+		matrice[x][y] = (matrice[x-2][y] + matrice[x-1][y] + matrice[x][y]) / 3
+		matrice[x][y] = (matrice[x-1][y] + matrice[x][y] + matrice[x][y]) / 3
 	}
-	for i := 0; i < N; i++ {
-		// moyenne avec deux valeurs adjacentes (colonne gauche et droite)
-		matrice[i][X] = (matrice[i][X-1] + matrice[i][X] + matrice[i][X+1]) / 3
-	}
-	out <- matrice
-}

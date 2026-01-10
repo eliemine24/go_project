@@ -67,7 +67,32 @@ func main() {
 		}
 	}
 	wg.Wait() // attendre que la concaténation soit terminée.
-	fmt.Println("--- fin ajout matrices --")
+	fmt.Println("--- fin ajout matrices ---")
+
+	// Moyennage pour adoucir les bords 
+	fmt.Println("-- début moyennage")
+
+	// On commence par les moyennages sur les colomnes pour éviter les chevauchements
+	var wgx sync.WaitGroup
+
+	for tx := 1; tx <= RATIO; tx++ {
+
+		x := tx * MAPSIZE
+
+		wgx.Add(1)
+
+		go func (FINALMAP [][]float64, x int){
+			defer wgx.Done()
+			
+		}
+
+	}
+
+
+
+
+
+
 	// afficher la matrice finie avec display.showmat
 	display.ShowMat(FINALMAP, MAPSIZE)
 }
