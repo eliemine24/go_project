@@ -6,9 +6,9 @@ package main
 
 import (
 	"fmt"
-	"gns/display"
-	"gns/matrix"
-	"gns/perlin"
+	"go_project/display"
+	"go_project/matrix"
+	"go_project/perlin"
 	"sync"
 )
 
