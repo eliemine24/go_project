@@ -48,7 +48,7 @@ git clone https://github.com/eliemine24/go_project
 
 Exécuter le script `setup.sh` pour initialiser le répertoire Go et instaler les bibliothèques nécessaires.
 ```bash
-./ setup.sh
+./setup.sh
 ```
 
 ### Utilisation
