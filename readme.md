@@ -51,7 +51,7 @@ Exécuter le script `setup.sh` pour initialiser le répertoire Go et instaler le
 ./setup.sh
 ```
 
-### Utilisation
+### Paramètres
 
 Plusieurs paramètres pour la génration d'une carte. Dans `main.go`, on peut modifier le nombre de carte générérées paralèllement et leur taille :
 ```go
