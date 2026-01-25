@@ -86,3 +86,38 @@ const (
 ---
 
 On obtient finalement un carte `perlin_heatmap.png` représentant le relief selon une échelle de couleur. Attention, des test sur nos machines nous ont montré qu'une trop grande définition d'image pouvait faire planter le programme. Cette limite varie selon les machine, et les paramètres par défaut ne doivent normalement pas poser problème. 
+
+
+## Comparaison
+
+Pour évaluer l'efficatité de la parallélisation, on mesure le temps pris par le programme pour une carte finale de taille constante, en fonction du nombre de cartes élémentaires dont elle est constituée.
+
+---
+
+**Taille finale : 1600 px**
+
+| **Map élémentaire** | **Ratio** | **Temps (ms)** |
+|:---:|:---:|:---:|
+| 50 | 32 | 127 |
+| 100 | 16 | 91 |
+| 200 | 8 | 68 |
+| 400 | 4 | 68 |
+| 800 | 2 | 86 |
+| 1600 | 1 | 212 |
+
+
+**Taille finale : 3200 px**
+
+| **Map élémentaire** | **Ratio** | **Temps (ms)** |
+|:---:|:---:|:---:|
+| 100 | 64 | 1395 |
+| 200 | 32 | 1066 |
+| 400 | 16 | 792 |
+| 800 | 8 | 751 |
+| 1600 | 4 | 684 |
+| 3200 | 2 | 1193 |
+| 6400 | 1 | 3155 |
+
+---
+
+Il est clair que la paraléllisation permet d'optimiser le processus en temps, cependant, quand le nombre de cartes élémentaire devient trop élevé, la tendance s'inverse et le temps d'exécution se remet à augmenter. (le nombre de map élémentaire croit en O(n^2) par rapport au ratio ce qui peut expliquer cette tendance ?)
